@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "echox"
+version = "0.1.0"
+description = "EchoX: WhisperX transcription with speaker diarization"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "EchoX" }]
+
+# WhisperX and pyannote are heavy deps; adjust versions as needed.
+dependencies = [
+  "typer>=0.9,<0.13",
+  "rich>=13.0,<14",
+  "numpy>=1.24,<3",
+  "soundfile>=0.12,<0.13",
+  "torch>=2.1,<3",
+  "whisperx>=3.1,<4",
+  "pyannote.audio>=3.1,<4",
+]
+
+[project.optional-dependencies]
+# For tests
+test = ["pytest>=7.4,<9"]
+
+[project.scripts]
+whisperx_diarize = "whisperx_diarize.cli:app"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["whisperx_diarize*"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
