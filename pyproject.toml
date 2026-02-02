@@ -13,7 +13,8 @@ authors = [{ name = "EchoX" }]
 
 # WhisperX and pyannote are heavy deps; adjust versions as needed.
 dependencies = [
-  "typer>=0.9,<0.13",
+  "typer>=0.12,<0.13",
+  "click>=8.1.7,<8.2",
   "rich>=13.0,<14",
   "numpy>=1.24,<3",
   "soundfile>=0.12,<0.13",
@@ -28,6 +29,7 @@ test = ["pytest>=7.4,<9"]
 
 [project.scripts]
 whisperx_diarize = "whisperx_diarize.cli:app"
+echox = "whisperx_diarize.cli:app"
 
 [tool.setuptools.packages.find]
 where = ["."]

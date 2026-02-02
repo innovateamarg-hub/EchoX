@@ -1,6 +1,6 @@
 # EchoX
 
-EchoX transcribe audio en espanol con WhisperX y agrega diarizacion por hablante con pyannote. El objetivo es:
+EchoX transcribe audio en español con WhisperX y agrega diarizacion por hablante con pyannote. El objetivo es:
 - transcripcion con timestamps
 - etiquetas de hablante
 - exportacion a varios formatos
@@ -13,16 +13,35 @@ EchoX transcribe audio en espanol con WhisperX y agrega diarizacion por hablante
 - ffmpeg (recomendado para --format_audio y export de WAV por hablante)
 - GPU opcional (CUDA) para acelerar
 
+## Estructura del proyecto
+```
+whisperx_diarize/
+  cli.py
+  types.py
+  pipeline/
+    __init__.py
+    runner.py
+  exporters/
+    __init__.py
+  utils/
+    audio.py
+    __init__.py
+tests/
+pyproject.toml
+README.md
+```
+
 ## Instalacion
+Usa siempre un venv (.venv) para evitar instalar dependencias globales o en la raiz.
 ```bash
 python -m venv .venv
-. .venv/Scripts/activate  # en Windows PowerShell
-pip install -e .
+.\.venv\Scripts\Activate.ps1  # Windows PowerShell
+python -m pip install -e .
 ```
 
 Si queres correr tests:
 ```bash
-pip install -e .[test]
+python -m pip install -e .[test]
 pytest
 ```
 
@@ -45,14 +64,23 @@ Otros ejemplos:
 # Exportar txt, srt y json
 whisperx_diarize ./ejemplo.wav --language es --diarize --min_speakers 3 --max_speakers 3 --output_dir out --export txt,srt,json --export_speaker_wavs
 
+# Modo asistido (wizard) por terminal
+whisperx_diarize --wizard
+
 # Normalizar audio a WAV mono 16kHz antes de correr
 whisperx_diarize ./input.mp3 --format_audio --output_dir out
+```
+
+Tambien podes usar el alias `echox`:
+```bash
+echox ./ejemplo.wav --language es --export md
 ```
 
 ## Formatos de salida
 - transcript.txt: texto con [SPEAKER_00]
 - transcript.srt y transcript.vtt: subtitulos con speaker por cue
 - transcript.json: metadatos + segments + words (si hay)
+- transcript.md: resumen en Markdown con segmentos y speakers
 - diarization.rttm: RTTM estandar (solo si --diarize)
 - speakers/*.wav: un WAV por hablante con silencios (si --export_speaker_wavs)
 
